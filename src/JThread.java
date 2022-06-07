@@ -11,8 +11,7 @@ class JThread extends Thread {
 
         System.out.printf("%s started... \n", Thread.currentThread().getName());
         for (int i = 0; i < 1000; i++) {
-            Program.COUNTER = Program.nextCounter(Program.COUNTER);
-
+            Program.nextCounter();
         }
 
         System.out.printf("%s finished... \n", Thread.currentThread().getName());
@@ -36,7 +35,7 @@ class Program {
         for (int i = 0; i < 10; i++) {
 
             ThreadList[i] = new JThread("JThread " + i);
-            ;
+
             ThreadList[i].start();
         }
 
@@ -56,7 +55,9 @@ class Program {
         System.out.println("Main thread finished...");
     }
 
-    public static int nextCounter(int counter) {
-        return counter++;
+    public static void nextCounter() {
+
+        COUNTER++;
     }
+
 }
