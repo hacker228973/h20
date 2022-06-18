@@ -1,4 +1,7 @@
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 class JThread extends Thread {
 
@@ -24,36 +27,39 @@ class JThread extends Thread {
 }
 
 class Program {
+    static class MyRunnable implements Runnable{
+        @Override
+        public void run() {
+
+        }
+    }
     static int COUNTER = 0;
 
     public static void main(String[] args) {
+        ExecutorService executorService= Executors.newFixedThreadPool(10);
 
-        Thread[] ThreadList = new Thread[10];
         System.out.println("Main thread started...");
 
-
-        for (int i = 0; i < 10; i++) {
-
-            ThreadList[i] = new JThread("JThread " + i);
-
-            ThreadList[i].start();
+        for(int i = 0;i<10;i++){
+            executorService.execute(new JThread("Джо Байден"));
+        }
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException e) {
+            System.out.println("Exception "+e);
         }
 
-        for (int i = 0; i < 10; i++) {
-            try {
-                ThreadList[i].join();
-
-            } catch (InterruptedException e) {
-
-                System.out.printf("%s has been interrupted", ThreadList[i].getName());
-            }
-
-        }
+//            }
+//
+//        }
         System.out.println(COUNTER);
 
 
         System.out.println("Main thread finished...");
     }
+
+
 
     public static void nextCounter() {
 
